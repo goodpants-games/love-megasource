@@ -164,9 +164,17 @@ if(MSVC)
 	set(MEGA_MSVC_DLLS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS})
 endif()
 
+if (EMSCRIPTEN)
+	if (NOT LOVEJS_COMPAT)
+		add_definitions("-pthread -s PTHREAD_POOL_SIZE=8")
+	endif()
+
+	add_definitions("-fwasm-exceptions -s WASM_LEGACY_EXCEPTIONS=0")
+endif()
+
 
 set(MEGA_ZLIB_VER "1.2.12")
-set(MEGA_LUA51_VER "5.1.5")
+set(MEGA_LUA52_VER "5.2.4")
 set(MEGA_LUAJIT_VER "2.1.0-e826d0c")
 ## set(MEGA_LUAJIT_VER "2.1.0-0bee44c") # known good
 set(MEGA_LIBOGG_VER "1.3.2")
@@ -194,10 +202,10 @@ add_subdirectory("libs/zlib-${MEGA_ZLIB_VER}" ${CMAKE_BINARY_DIR}/zlib)
 set(MEGA_ZLIB zlibstatic)
 
 message(STATUS "-----------------------------------------------------")
-message(STATUS "Configuring: lua ${MEGA_LUA51_VER}")
+message(STATUS "Configuring: lua ${MEGA_LUA52_VER}")
 message(STATUS "-----------------------------------------------------")
-add_subdirectory("libs/lua-${MEGA_LUA51_VER}" ${CMAKE_BINARY_DIR}/lua51)
-set(MEGA_LUA51 lua51)
+add_subdirectory("libs/lua-${MEGA_LUA52_VER}" ${CMAKE_BINARY_DIR}/lua52)
+set(MEGA_LUA52 lua52)
 
 message(STATUS "-----------------------------------------------------")
 message(STATUS "Configuring: libogg ${MEGA_LIBOGG_VER}")
@@ -296,7 +304,7 @@ endif()
 
 set(MEGA_3P
 	${MEGA_ZLIB}
-	${MEGA_LUA51}
+	${MEGA_LUA52}
 	${MEGA_LIBOGG}
 	${MEGA_LIBVORBIS}
 	${MEGA_LIBVORBISFILE}
@@ -340,5 +348,5 @@ if (NOT EMSCRIPTEN)
   add_move_dll(megatest ${MEGA_MPEG123})
   add_move_dll(megatest ${MEGA_SDL2})
   add_move_dll(megatest ${MEGA_OPENAL})
-  add_move_dll(megatest ${MEGA_LUA51})
+  add_move_dll(megatest ${MEGA_LUA52})
 endif(NOT EMSCRIPTEN)

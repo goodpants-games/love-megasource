@@ -14,10 +14,10 @@ set(THEORA_SRC
     lib/decinfo.c
     lib/decode.c
     lib/dequant.c
-    lib/encapiwrapper.c
+    # lib/encapiwrapper.c
     lib/encfrag.c
     lib/encinfo.c
-    lib/encode.c
+    # lib/encode.c
     lib/encoder_disabled.c
     lib/enquant.c
     lib/fdct.c
